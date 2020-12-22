@@ -1,15 +1,19 @@
 package kr.co.fastcampus.eatgo.domain;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Data
 public class Restaurant {
     private final String name;
     private final String address;
     private final Long id;
+    private final List<MenuItem> menuItems=new ArrayList<>();
 
     public Restaurant(String name){
         this.name = name;
@@ -26,10 +30,18 @@ public class Restaurant {
         this.address = address;
         this.id=id;
     }
-    public String getName() {
-        return name;
-    }
+
     public String getInformation(){
         return name+" in "+address;
+    }
+
+    public void addMenuItem(MenuItem menuItem) {
+        menuItems.add(menuItem);
+    }
+
+    public void setMenuItems(List<MenuItem> menuItems) {
+        for(MenuItem m : menuItems){
+            addMenuItem(m);
+        }
     }
 }
