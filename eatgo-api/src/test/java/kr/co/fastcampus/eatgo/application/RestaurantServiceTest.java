@@ -3,29 +3,47 @@ package kr.co.fastcampus.eatgo.application;
 import kr.co.fastcampus.eatgo.domain.*;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
+import static org.mockito.BDDMockito.given;
 
 public class RestaurantServiceTest {
 
 
     private RestaurantService restaurantService;
 
+    @Mock
     private RestaurantRepository restaurantRepository;
 
+    @Mock
     private MenuItemRepository menuItemRepository;
 
 
     @Before
     public void setUp() {
-        restaurantRepository = new RestaurantRepositoryImpl();
-        menuItemRepository = new MenuItemRepositoryImpl();
-        restaurantService = new RestaurantService(restaurantRepository,menuItemRepository);
+        MockitoAnnotations.initMocks(this);
+        mockRestaurantRepository();
 
+        restaurantService = new RestaurantService(
+                restaurantRepository,menuItemRepository);
+
+    }
+
+    private void mockRestaurantRepository() {
+        List<Restaurant> restaurants=new ArrayList<>();
+        restaurants.add(new Restaurant("Bob zip","Seoul",1004L));
+        restaurants.get(0).addMenuItem(new MenuItem("Kimchi"));
+        restaurants.add(new Restaurant("Cyber food","Seoul",2020L));
+        given(restaurantRepository.findAll()).willReturn(restaurants);
+        given(restaurantRepository.findById(1004L)).willReturn(restaurants.get(0));
     }
 
 

@@ -15,8 +15,7 @@ import java.util.List;
 @RestController
 public class RestaurantController {
 
-    @Autowired
-    private MenuItemRepository menuItemRepository;
+
 
     @Autowired
     private RestaurantService restaurantService;
@@ -31,9 +30,6 @@ public class RestaurantController {
     @GetMapping("restaurants/{id}")
     public Restaurant detail(@PathVariable("id") Long id){
         Restaurant restaurant= restaurantService.getRestaurant(id);
-
-
-
         return restaurant ;
     }
 
