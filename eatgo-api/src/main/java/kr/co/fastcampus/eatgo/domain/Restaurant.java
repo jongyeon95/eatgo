@@ -5,16 +5,25 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
 
+@Entity
 @Data
 @NoArgsConstructor
 public class Restaurant {
+
     private  String name;
     private  String address;
+    @Id
+    @GeneratedValue
     private  Long id;
+    @Transient
     private final List<MenuItem> menuItems=new ArrayList<>();
 
     public Restaurant(String name){

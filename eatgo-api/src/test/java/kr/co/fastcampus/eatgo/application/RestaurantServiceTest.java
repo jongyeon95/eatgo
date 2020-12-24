@@ -10,6 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -44,16 +45,16 @@ public class RestaurantServiceTest {
         restaurants.get(0).addMenuItem(new MenuItem("Kimchi"));
         restaurants.add(new Restaurant("Cyber food","Seoul",2020L));
         given(restaurantRepository.findAll()).willReturn(restaurants);
-        given(restaurantRepository.findById(1004L)).willReturn(restaurants.get(0));
+        given(restaurantRepository.findById(1004L)).willReturn(java.util.Optional.ofNullable(restaurants.get(0)));
 
     }
 
 
     @Test
     public void getRestaurant() {
-        Restaurant restaurant = restaurantService.getRestaurant(1004L);
-        assertThat(restaurant.getId(), is(1004L));
-        MenuItem menuItem = restaurant.getMenuItems().get(0);
+        Optional<Restaurant> restaurant = restaurantService.getRestaurant(1004L);
+        assertThat(restaurant.get().getId(), is(1004L));
+        MenuItem menuItem = restaurant.get().getMenuItems().get(0);
         assertThat(menuItem.getName(), is("Kimchi"));
     }
 

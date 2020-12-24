@@ -1,11 +1,7 @@
 package kr.co.fastcampus.eatgo.interfaces;
 
 import kr.co.fastcampus.eatgo.application.RestaurantService;
-import kr.co.fastcampus.eatgo.domain.MenuItem;
-import kr.co.fastcampus.eatgo.domain.MenuItemRepository;
 import kr.co.fastcampus.eatgo.domain.Restaurant;
-import kr.co.fastcampus.eatgo.domain.RestaurantRepository;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class RestaurantController {
@@ -30,8 +27,8 @@ public class RestaurantController {
     }
 
     @GetMapping("restaurants/{id}")
-    public Restaurant detail(@PathVariable("id") Long id){
-        Restaurant restaurant= restaurantService.getRestaurant(id);
+    public Optional<Restaurant> detail(@PathVariable("id") Long id){
+        Optional<Restaurant> restaurant= restaurantService.getRestaurant(id);
         return restaurant ;
     }
 
@@ -40,7 +37,7 @@ public class RestaurantController {
         String name=resource.getName();
         String address=resource.getAddress();
 
-        Restaurant restaurant=new Restaurant(name,address,1004L);
+        Restaurant restaurant=new Restaurant(name,address);
         restaurantService.addRestaurant(restaurant);
 
         URI location = new URI("/restaurants/"+restaurant.getId());

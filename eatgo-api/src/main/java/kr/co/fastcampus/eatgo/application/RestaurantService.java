@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RestaurantService {
@@ -28,10 +29,10 @@ public class RestaurantService {
     };
 
 
-    public Restaurant getRestaurant(Long id){
-        Restaurant restaurant=restaurantRepository.findById(id);
+    public Optional<Restaurant> getRestaurant(Long id){
+        Optional<Restaurant> restaurant=restaurantRepository.findById(id);
         List<MenuItem> menuItems= menuItemRepository.findAllByRestaurantId(id);
-        restaurant.setMenuItems(menuItems);
+        restaurant.get().setMenuItems(menuItems);
         return  restaurant;
     };
 

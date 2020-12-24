@@ -55,8 +55,8 @@ public class RestaurantControllerTest {
         restaurants.add(new Restaurant("Bob zip", "Seoul", 1004L));
         restaurants.get(0).addMenuItem(new MenuItem("Kimchi"));
         restaurants.add(new Restaurant("Cyber food", "Seoul", 2020L));
-        given(restaurantService.getRestaurant(1004L)).willReturn(restaurants.get(0));
-        given(restaurantService.getRestaurant(2020L)).willReturn(restaurants.get(1));
+        given(restaurantService.getRestaurant(1004L)).willReturn(java.util.Optional.ofNullable(restaurants.get(0)));
+        given(restaurantService.getRestaurant(2020L)).willReturn(java.util.Optional.ofNullable(restaurants.get(1)));
         mvc.perform(get("/restaurants/1004"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("\"name\":\"Bob zip\"")))
