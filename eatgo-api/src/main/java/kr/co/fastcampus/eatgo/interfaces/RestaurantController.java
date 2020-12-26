@@ -11,6 +11,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 public class RestaurantController {
 
@@ -36,7 +37,8 @@ public class RestaurantController {
     public ResponseEntity<?> create(@RequestBody Restaurant resource) throws URISyntaxException {
         String name=resource.getName();
         String address=resource.getAddress();
-
+        System.out.println(name);
+        System.out.println(address);
         Restaurant restaurant=new Restaurant(name,address);
         restaurantService.addRestaurant(restaurant);
 
