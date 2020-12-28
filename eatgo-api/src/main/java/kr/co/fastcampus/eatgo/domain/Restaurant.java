@@ -1,9 +1,7 @@
 package kr.co.fastcampus.eatgo.domain;
 
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,13 +13,17 @@ import java.util.List;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class Restaurant {
 
     @Id
     @GeneratedValue
     private  Long id;
+
     private  String name;
+
     private  String address;
 
     @Transient
@@ -37,11 +39,7 @@ public class Restaurant {
         this.address = address;
         this.id=null;
     }
-    public Restaurant(Long id,String name,String address){
-        this.name = name;
-        this.address = address;
-        this.id=id;
-    }
+
 
     public String getInformation(){
         return name+" in "+address;

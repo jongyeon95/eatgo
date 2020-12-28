@@ -41,9 +41,17 @@ public class RestaurantServiceTest {
 
     private void mockRestaurantRepository() {
         List<Restaurant> restaurants=new ArrayList<>();
-        restaurants.add(new Restaurant(1004L,"Bob zip","Seoul"));
+        restaurants.add(Restaurant.builder()
+                .id(1004L)
+                .name("Bob zip")
+                .address("Seoul")
+                .build());
         restaurants.get(0).addMenuItem(new MenuItem("Kimchi"));
-        restaurants.add(new Restaurant(1004L,"Cyber food","Seoul"));
+        restaurants.add(Restaurant.builder()
+                .id(1004L)
+                .name("Cyber food")
+                .address("Seoul")
+                .build());
         given(restaurantRepository.findAll()).willReturn(restaurants);
         given(restaurantRepository.findById(1004L)).willReturn(java.util.Optional.ofNullable(restaurants.get(0)));
 
@@ -68,8 +76,16 @@ public class RestaurantServiceTest {
 
     @Test
     public void addRestaurant(){
-        Restaurant restaurant=new Restaurant("Bob zip","Seoul");
-        Restaurant saved=new Restaurant(1004L,"Bob zip","Seoul");
+        Restaurant restaurant = Restaurant.builder()
+                .id(1004L)
+                .name("Bob zip")
+                .address("Seoul")
+                .build();
+        Restaurant saved=Restaurant.builder()
+                .id(1004L)
+                .name("Bob zip")
+                .address("Seoul")
+                .build();
 
         given(restaurantRepository.save(any())).willReturn(saved);
         Restaurant created =restaurantService.addRestaurant(restaurant);
@@ -78,7 +94,11 @@ public class RestaurantServiceTest {
 
     @Test
     public void updateRestaurants(){
-        Restaurant restaurant=new Restaurant(1004L,"Bob zip","Seoul");
+        Restaurant restaurant=Restaurant.builder()
+                .id(1004L)
+                .name("Bob zip")
+                .address("Seoul")
+                .build();
         given(restaurantRepository.findById(1004L)).willReturn(Optional.of(restaurant));
         Restaurant updated=restaurantService.updateRestaurant(1004L,"Sool zip","Paju");
         assertThat(updated.getName(),is("Sool zip"));
