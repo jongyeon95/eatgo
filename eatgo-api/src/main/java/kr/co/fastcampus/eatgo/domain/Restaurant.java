@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,23 +23,13 @@ public class Restaurant {
     @GeneratedValue
     private  Long id;
 
+    @NotEmpty
     private  String name;
 
     private  String address;
 
     @Transient
     private final List<MenuItem> menuItems=new ArrayList<>();
-
-    public Restaurant(String name){
-        this.name = name;
-        this.address=null;
-        this.id=null;
-    }
-    public Restaurant(String name,String address){
-        this.name = name;
-        this.address = address;
-        this.id=null;
-    }
 
 
     public String getInformation(){

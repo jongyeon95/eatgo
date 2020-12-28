@@ -69,7 +69,7 @@ public class RestaurantControllerTest {
     }
 
     @Test
-    public void create() throws Exception {
+    public void createWithValidData() throws Exception {
 
         mvc.perform(post("/restaurants")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -79,6 +79,16 @@ public class RestaurantControllerTest {
 
         verify(restaurantService).addRestaurant(any());
     }
+
+    @Test
+    public void createWithInvalidData() throws Exception {
+
+        mvc.perform(post("/restaurants")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"\",\"address\":\"\"}"))
+                .andExpect(status().isBadRequest());
+    }
+
 
     @Test
     public void update() throws Exception {
