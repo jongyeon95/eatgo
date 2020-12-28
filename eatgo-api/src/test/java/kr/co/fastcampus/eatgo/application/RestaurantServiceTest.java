@@ -41,9 +41,9 @@ public class RestaurantServiceTest {
 
     private void mockRestaurantRepository() {
         List<Restaurant> restaurants=new ArrayList<>();
-        restaurants.add(new Restaurant("Bob zip","Seoul",1004L));
+        restaurants.add(new Restaurant(1004L,"Bob zip","Seoul"));
         restaurants.get(0).addMenuItem(new MenuItem("Kimchi"));
-        restaurants.add(new Restaurant("Cyber food","Seoul",2020L));
+        restaurants.add(new Restaurant(1004L,"Cyber food","Seoul"));
         given(restaurantRepository.findAll()).willReturn(restaurants);
         given(restaurantRepository.findById(1004L)).willReturn(java.util.Optional.ofNullable(restaurants.get(0)));
 
@@ -69,10 +69,20 @@ public class RestaurantServiceTest {
     @Test
     public void addRestaurant(){
         Restaurant restaurant=new Restaurant("Bob zip","Seoul");
-        Restaurant saved=new Restaurant("Bob zip","Seoul",1004L);
+        Restaurant saved=new Restaurant(1004L,"Bob zip","Seoul");
 
         given(restaurantRepository.save(any())).willReturn(saved);
         Restaurant created =restaurantService.addRestaurant(restaurant);
         assertThat(created.getId(),is(1004L));
+    }
+
+    @Test
+    public void updateRestaurants(){
+        Restaurant restaurant=new Restaurant(1004L,"Bob zip","Seoul");
+        given(restaurantRepository.findById(1004L)).willReturn(Optional.of(restaurant));
+        Restaurant updated=restaurantService.updateRestaurant(1004L,"Sool zip","Paju");
+        assertThat(updated.getName(),is("Sool zip"));
+        assertThat(updated.getAddress(),is("Paju"));
+
     }
 }

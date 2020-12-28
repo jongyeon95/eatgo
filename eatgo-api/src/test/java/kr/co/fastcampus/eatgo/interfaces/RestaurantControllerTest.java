@@ -22,8 +22,7 @@ import static org.hamcrest.core.StringContains.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -40,7 +39,7 @@ public class RestaurantControllerTest {
     @Test
     public void list() throws Exception {
         List<Restaurant> restaurants = new ArrayList<>();
-        restaurants.add(new Restaurant("Bob zip", "Seoul", 1004L));
+        restaurants.add(new Restaurant(1004L,"Bob zip", "Seoul"));
         given(restaurantService.getRestaurants()).willReturn(restaurants);
         mvc.perform(get("/restaurants"))
                 .andExpect(status().isOk())
@@ -52,9 +51,9 @@ public class RestaurantControllerTest {
     @Test
     public void detail() throws Exception {
         List<Restaurant> restaurants = new ArrayList<>();
-        restaurants.add(new Restaurant("Bob zip", "Seoul", 1004L));
+        restaurants.add(new Restaurant(1004L,"Bob zip", "Seoul"));
         restaurants.get(0).addMenuItem(new MenuItem("Kimchi"));
-        restaurants.add(new Restaurant("Cyber food", "Seoul", 2020L));
+        restaurants.add(new Restaurant(2020L,"Cyber food", "Seoul"));
         given(restaurantService.getRestaurant(1004L)).willReturn(java.util.Optional.ofNullable(restaurants.get(0)));
         given(restaurantService.getRestaurant(2020L)).willReturn(java.util.Optional.ofNullable(restaurants.get(1)));
         mvc.perform(get("/restaurants/1004"))
@@ -76,10 +75,18 @@ public class RestaurantControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"name\":\"Bob zip\",\"address\":\"Seoul\"}"))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("location", "/restaurants/1004"))
                 .andExpect(content().string("{}"));
 
         verify(restaurantService).addRestaurant(any());
     }
 
+    @Test
+    public void update() throws Exception {
+        mvc.perform(patch("/restaurants/1004")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"Bob Bar\",\"address\":\"Paju\"}")
+        )
+                .andExpect(status().isOk());
+        verify(restaurantService).updateRestaurant(1004L,"Bob Bar","Paju");
+    }
 }

@@ -18,11 +18,12 @@ import java.util.List;
 @NoArgsConstructor
 public class Restaurant {
 
-    private  String name;
-    private  String address;
     @Id
     @GeneratedValue
     private  Long id;
+    private  String name;
+    private  String address;
+
     @Transient
     private final List<MenuItem> menuItems=new ArrayList<>();
 
@@ -36,7 +37,7 @@ public class Restaurant {
         this.address = address;
         this.id=null;
     }
-    public Restaurant(String name,String address,Long id){
+    public Restaurant(Long id,String name,String address){
         this.name = name;
         this.address = address;
         this.id=id;
@@ -54,5 +55,10 @@ public class Restaurant {
         for(MenuItem m : menuItems){
             addMenuItem(m);
         }
+    }
+
+    public void updateRestaurant(String name,String address){
+        this.name=name;
+        this.address=address;
     }
 }
