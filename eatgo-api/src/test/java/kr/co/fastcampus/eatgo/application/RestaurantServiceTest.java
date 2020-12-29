@@ -59,18 +59,22 @@ public class RestaurantServiceTest {
 
 
     @Test
-    public void getRestaurant() {
-        Optional<Restaurant> restaurant = restaurantService.getRestaurant(1004L);
-        assertThat(restaurant.get().getId(), is(1004L));
-        MenuItem menuItem = restaurant.get().getMenuItems().get(0);
+    public void getRestaurantWithExisted() {
+        Restaurant restaurant = restaurantService.getRestaurant(1004L);
+        assertThat(restaurant.getId(), is(1004L));
+        MenuItem menuItem = restaurant.getMenuItems().get(0);
         assertThat(menuItem.getName(), is("Kimchi"));
+    }
+
+    @Test(expected = RestaurantNotFoundException.class)
+    public void getRestaurantWithNotExisted() {
+      restaurantService.getRestaurant(404L);
     }
 
     @Test
     public void getRestaurants() {
         List<Restaurant> restaurants = restaurantService.getRestaurants();
         Restaurant restaurant = restaurants.get(0);
-        assertThat(restaurant.getId(), is(1004L));
         assertThat(restaurant.getId(), is(1004L));
     }
 

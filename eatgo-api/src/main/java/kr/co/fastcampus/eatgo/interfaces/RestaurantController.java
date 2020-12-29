@@ -29,8 +29,8 @@ public class RestaurantController {
     }
 
     @GetMapping("restaurants/{id}")
-    public Optional<Restaurant> detail(@PathVariable("id") Long id) {
-        Optional<Restaurant> restaurant = restaurantService.getRestaurant(id);
+    public Restaurant detail(@PathVariable("id") Long id) {
+        Restaurant restaurant = restaurantService.getRestaurant(id);
         return restaurant;
     }
 

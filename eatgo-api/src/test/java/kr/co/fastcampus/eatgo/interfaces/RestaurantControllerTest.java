@@ -2,15 +2,11 @@ package kr.co.fastcampus.eatgo.interfaces;
 
 import kr.co.fastcampus.eatgo.application.RestaurantService;
 import kr.co.fastcampus.eatgo.domain.*;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -49,13 +45,22 @@ public class RestaurantControllerTest {
     }
 
     @Test
-    public void detail() throws Exception {
+    public void detailWithExisted() throws Exception {
         List<Restaurant> restaurants = new ArrayList<>();
-        restaurants.add(new Restaurant(1004L,"Bob zip", "Seoul"));
+        restaurants.add(Restaurant.builder()
+                .id(1004L)
+                .name("Bob zip")
+                .address("Seoul")
+                .build());
         restaurants.get(0).addMenuItem(new MenuItem("Kimchi"));
-        restaurants.add(new Restaurant(2020L,"Cyber food", "Seoul"));
-        given(restaurantService.getRestaurant(1004L)).willReturn(java.util.Optional.ofNullable(restaurants.get(0)));
-        given(restaurantService.getRestaurant(2020L)).willReturn(java.util.Optional.ofNullable(restaurants.get(1)));
+        restaurants.add(Restaurant.builder()
+                .id(2020L)
+                .name("Cyber food")
+                .address("Seoul")
+                .build());
+
+        given(restaurantService.getRestaurant(1004L)).willReturn(restaurants.get(0));
+        given(restaurantService.getRestaurant(2020L)).willReturn(restaurants.get(1));
         mvc.perform(get("/restaurants/1004"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("\"name\":\"Bob zip\"")))
@@ -66,6 +71,14 @@ public class RestaurantControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("\"name\":\"Cyber food\"")))
                 .andExpect(content().string(containsString("\"id\":2020")));
+    }
+
+    @Test
+    public void detailWithNotExisted() throws Exception {
+        given(restaurantService.getRestaurant(404L)).willThrow(new RestaurantNotFoundException(404L));
+       mvc.perform(get("/restaurants/404"))
+               .andExpect(status().isNotFound())
+               .andExpect(content().string("{}"));
     }
 
     @Test
