@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.core.StringContains.containsString;
@@ -35,7 +36,11 @@ public class RestaurantControllerTest {
     @Test
     public void list() throws Exception {
         List<Restaurant> restaurants = new ArrayList<>();
-        restaurants.add(new Restaurant(1004L,"Bob zip", "Seoul"));
+        restaurants.add(Restaurant.builder()
+                .id(1004L)
+                .name("Bob zip")
+                .address("Seoul")
+                .build());
         given(restaurantService.getRestaurants()).willReturn(restaurants);
         mvc.perform(get("/restaurants"))
                 .andExpect(status().isOk())
@@ -53,6 +58,12 @@ public class RestaurantControllerTest {
                 .address("Seoul")
                 .build());
         restaurants.get(0).addMenuItem(new MenuItem("Kimchi"));
+        Review review=Review.builder()
+                .name("JOKER")
+                .score(5)
+                .description("Great")
+                .build();
+        restaurants.get(0).setReviews(Arrays.asList(review));
         restaurants.add(Restaurant.builder()
                 .id(2020L)
                 .name("Cyber food")
@@ -65,7 +76,8 @@ public class RestaurantControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("\"name\":\"Bob zip\"")))
                 .andExpect(content().string(containsString("\"id\":1004")))
-                .andExpect(content().string(containsString("Kimchi")));
+                .andExpect(content().string(containsString("Kimchi")))
+                .andExpect(content().string(containsString("Great")));
 
         mvc.perform(get("/restaurants/2020"))
                 .andExpect(status().isOk())
