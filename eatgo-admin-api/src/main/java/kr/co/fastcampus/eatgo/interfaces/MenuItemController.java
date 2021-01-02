@@ -21,4 +21,9 @@ public class MenuItemController {
         return "";
     }
 
+    @GetMapping("restaurants/{restaurantId}/menuitems")
+    public List<MenuItem>  list(@PathVariable("restaurantId") Long id){
+        return menuItemService.getMenuItems(id);
+    }
+
 }

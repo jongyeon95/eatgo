@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,6 +25,11 @@ public class MenuItemService {
         for(MenuItem menuItem : menuItems){
             update(id, menuItem);
         }
+    }
+
+    public List<MenuItem> getMenuItems(Long restaurantId){
+       List<MenuItem > menuItems=menuItemRepository.findAllByRestaurantId(restaurantId);
+        return menuItems;
     }
 
     private void update(Long id, MenuItem menuItem) {

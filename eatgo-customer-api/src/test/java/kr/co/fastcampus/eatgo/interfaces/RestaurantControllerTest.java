@@ -97,35 +97,4 @@ public class RestaurantControllerTest {
                .andExpect(content().string("{}"));
     }
 
-    @Test
-    public void createWithValidData() throws Exception {
-
-        mvc.perform(post("/restaurants")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"Bob zip\",\"address\":\"Seoul\"}"))
-                .andExpect(status().isCreated())
-                .andExpect(content().string("{}"));
-
-        verify(restaurantService).addRestaurant(any());
-    }
-
-    @Test
-    public void createWithInvalidData() throws Exception {
-
-        mvc.perform(post("/restaurants")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"\",\"address\":\"\"}"))
-                .andExpect(status().isBadRequest());
-    }
-
-
-    @Test
-    public void update() throws Exception {
-        mvc.perform(patch("/restaurants/1004")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"Bob Bar\",\"address\":\"Paju\"}")
-        )
-                .andExpect(status().isOk());
-        verify(restaurantService).updateRestaurant(1004L,"Bob Bar","Paju");
-    }
 }
