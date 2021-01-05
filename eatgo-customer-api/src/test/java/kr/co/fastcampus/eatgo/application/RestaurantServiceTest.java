@@ -55,6 +55,7 @@ public class RestaurantServiceTest {
         List<Restaurant> restaurants=new ArrayList<>();
         restaurants.add(Restaurant.builder()
                 .id(1004L)
+                .categoryId(1L)
                 .name("Bob zip")
                 .address("Seoul")
                 .build());
@@ -64,7 +65,7 @@ public class RestaurantServiceTest {
                 .name("Cyber food")
                 .address("Seoul")
                 .build());
-        given(restaurantRepository.findAll()).willReturn(restaurants);
+        given(restaurantRepository.findAllByAddressContainingAndCategoryId("Seoul",1L)).willReturn(restaurants);
         given(restaurantRepository.findById(1004L)).willReturn(Optional.ofNullable(restaurants.get(0)));
 
     }
@@ -90,7 +91,9 @@ public class RestaurantServiceTest {
 
     @Test
     public void getRestaurants() {
-        List<Restaurant> restaurants = restaurantService.getRestaurants();
+        String region="Seoul";
+        Long categoryId=1L;
+        List<Restaurant> restaurants = restaurantService.getRestaurants(region,categoryId);
         Restaurant restaurant = restaurants.get(0);
         assertThat(restaurant.getId(), is(1004L));
     }

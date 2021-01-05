@@ -41,12 +41,14 @@ public class RestaurantServiceTest {
         List<Restaurant> restaurants=new ArrayList<>();
         restaurants.add(Restaurant.builder()
                 .id(1004L)
+                .categoryId(1L)
                 .name("Bob zip")
                 .address("Seoul")
                 .build());
 
         restaurants.add(Restaurant.builder()
                 .id(1004L)
+                .categoryId(1L)
                 .name("Cyber food")
                 .address("Seoul")
                 .build());
@@ -80,11 +82,13 @@ public class RestaurantServiceTest {
     public void addRestaurant(){
         Restaurant restaurant = Restaurant.builder()
                 .id(1004L)
+                .categoryId(1L)
                 .name("Bob zip")
                 .address("Seoul")
                 .build();
         Restaurant saved=Restaurant.builder()
                 .id(1004L)
+                .categoryId(1L)
                 .name("Bob zip")
                 .address("Seoul")
                 .build();
@@ -98,6 +102,7 @@ public class RestaurantServiceTest {
     public void updateRestaurants(){
         Restaurant restaurant=Restaurant.builder()
                 .id(1004L)
+                .categoryId(1L)
                 .name("Bob zip")
                 .address("Seoul")
                 .build();
