@@ -32,6 +32,8 @@ public class User {
     @NotNull
     private Long level;
 
+    private String password;
+
     public boolean isAdmin(){
 
         return level>=3L;

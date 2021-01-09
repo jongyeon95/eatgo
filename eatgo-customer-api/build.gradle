@@ -20,6 +20,7 @@ repositories {
 
 dependencies {
     implementation project(':eatgo-common')
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.4.1'
