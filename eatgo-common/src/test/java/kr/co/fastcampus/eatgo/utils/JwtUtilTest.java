@@ -23,6 +23,7 @@ public class JwtUtilTest {
         String token = jwtUtil.createToken(1004L,"Tester",null);
 
         assertThat(token,containsString("."));
+
     }
 
     @Test
